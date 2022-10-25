@@ -1,10 +1,10 @@
 # Furniture_marketing--graduation_project
 
-
-1- In the field of home furniture trade, there are many customers
+<ol>
+<li>In the field of home furniture trade, there are many customers
 who are looking for distinctive, modern, beautiful and
 comfortable pieces of furniture that suit them and suit their own
-home.
+home.</li></ol>
 2- This sometimes causes them a problem in how to find the right
 pieces, so they start searching in many exhibitions to find what
 suits them according to the shape, colors, and price, and
