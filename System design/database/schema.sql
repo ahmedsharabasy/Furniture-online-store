@@ -27,10 +27,11 @@ DROP TABLE IF EXISTS `advertisement`;
 CREATE TABLE `advertisement` (
   `ad_id` int NOT NULL AUTO_INCREMENT,
   `ad_name` varchar(100) DEFAULT NULL,
-  `management_id` int DEFAULT NULL,
+  `seller_id` int DEFAULT NULL,
+  `product_id` int DEFAULT NULL,
   PRIMARY KEY (`ad_id`),
-  KEY `management_id_idx` (`management_id`),
-  CONSTRAINT `management_id` FOREIGN KEY (`management_id`) REFERENCES `management` (`management_id`)
+  KEY `seller_ad_idx` (`seller_id`),
+  CONSTRAINT `product_ad` FOREIGN KEY (`seller_id`) REFERENCES `seller` (`seller_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -165,38 +166,6 @@ CREATE TABLE `complaint` (
 LOCK TABLES `complaint` WRITE;
 /*!40000 ALTER TABLE `complaint` DISABLE KEYS */;
 /*!40000 ALTER TABLE `complaint` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `contact`
---
-
-DROP TABLE IF EXISTS `contact`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `contact` (
-  `contact_id` int NOT NULL AUTO_INCREMENT,
-  `contact_content` text NOT NULL,
-  `seller_id` int DEFAULT NULL,
-  `client_id` int DEFAULT NULL,
-  `management_id` int DEFAULT NULL,
-  PRIMARY KEY (`contact_id`),
-  KEY `client_id_idx` (`client_id`),
-  KEY `seller_id_idx` (`seller_id`),
-  KEY `management_id_idx` (`management_id`),
-  CONSTRAINT `client_contact` FOREIGN KEY (`client_id`) REFERENCES `client` (`client_id`),
-  CONSTRAINT `management_contact` FOREIGN KEY (`management_id`) REFERENCES `management` (`management_id`),
-  CONSTRAINT `seller_contact` FOREIGN KEY (`seller_id`) REFERENCES `seller` (`seller_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `contact`
---
-
-LOCK TABLES `contact` WRITE;
-/*!40000 ALTER TABLE `contact` DISABLE KEYS */;
-/*!40000 ALTER TABLE `contact` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -424,4 +393,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-10-25 17:52:42
+-- Dump completed on 2022-11-10  0:06:14
