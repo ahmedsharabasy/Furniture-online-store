@@ -98,7 +98,7 @@ CREATE TABLE `client` (
   KEY `seller_id_idx` (`seller_id`),
   CONSTRAINT `cart_id` FOREIGN KEY (`cart_id`) REFERENCES `cart` (`cart_id`),
   CONSTRAINT `order_id` FOREIGN KEY (`order_id`) REFERENCES `order` (`order_id`),
-  CONSTRAINT `product_id` FOREIGN KEY (`product_id`) REFERENCES `inventory` (`product_id`),
+  CONSTRAINT `product_id` FOREIGN KEY (`product_id`) REFERENCES `product` (`product_id`),
   CONSTRAINT `seller_id` FOREIGN KEY (`seller_id`) REFERENCES `seller` (`seller_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -169,6 +169,31 @@ LOCK TABLES `complaint` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `credit card company`
+--
+
+DROP TABLE IF EXISTS `credit card company`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `credit card company` (
+  `payment_id` int NOT NULL AUTO_INCREMENT,
+  `completion` tinyint DEFAULT NULL COMMENT 'TINYINT is equavelant to BOOLEAN',
+  `seller_id` int DEFAULT NULL COMMENT 'to deal with seller credit account number for payments',
+  `client_id` int DEFAULT NULL COMMENT 'to deal with client credit account number for payments',
+  PRIMARY KEY (`payment_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `credit card company`
+--
+
+LOCK TABLES `credit card company` WRITE;
+/*!40000 ALTER TABLE `credit card company` DISABLE KEYS */;
+/*!40000 ALTER TABLE `credit card company` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `delivery`
 --
 
@@ -181,7 +206,7 @@ CREATE TABLE `delivery` (
   `product_id` int DEFAULT NULL,
   PRIMARY KEY (`delivery_id`),
   KEY `product_i_idx` (`product_id`),
-  CONSTRAINT `remove_product` FOREIGN KEY (`product_id`) REFERENCES `inventory` (`product_id`)
+  CONSTRAINT `remove_product` FOREIGN KEY (`product_id`) REFERENCES `product` (`product_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -192,41 +217,6 @@ CREATE TABLE `delivery` (
 LOCK TABLES `delivery` WRITE;
 /*!40000 ALTER TABLE `delivery` DISABLE KEYS */;
 /*!40000 ALTER TABLE `delivery` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `inventory`
---
-
-DROP TABLE IF EXISTS `inventory`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `inventory` (
-  `product_id` int NOT NULL AUTO_INCREMENT,
-  `product_category` varchar(45) NOT NULL,
-  `Height` float NOT NULL,
-  `width` float NOT NULL,
-  `material` varchar(200) NOT NULL,
-  `color` varchar(45) NOT NULL,
-  `product_image` blob NOT NULL,
-  `product_brand` varchar(45) DEFAULT NULL,
-  `product_price` double NOT NULL,
-  `product_offer` double DEFAULT NULL,
-  `product_rate` int DEFAULT NULL,
-  `seller_id` int DEFAULT NULL,
-  PRIMARY KEY (`product_id`),
-  KEY `seller_id_idx` (`seller_id`),
-  CONSTRAINT `add_product_information` FOREIGN KEY (`seller_id`) REFERENCES `seller` (`seller_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `inventory`
---
-
-LOCK TABLES `inventory` WRITE;
-/*!40000 ALTER TABLE `inventory` DISABLE KEYS */;
-/*!40000 ALTER TABLE `inventory` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -286,7 +276,7 @@ CREATE TABLE `order` (
   CONSTRAINT `make_order_and_receive_detials` FOREIGN KEY (`client_id`) REFERENCES `client` (`client_id`),
   CONSTRAINT `order_delivery` FOREIGN KEY (`delevery_id`) REFERENCES `delivery` (`delivery_id`),
   CONSTRAINT `order_details_to_seller` FOREIGN KEY (`seller_id`) REFERENCES `seller` (`seller_id`),
-  CONSTRAINT `pay` FOREIGN KEY (`payment_id`) REFERENCES `payment` (`payment_id`)
+  CONSTRAINT `pay` FOREIGN KEY (`payment_id`) REFERENCES `credit card company` (`payment_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -300,28 +290,38 @@ LOCK TABLES `order` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `payment`
+-- Table structure for table `product`
 --
 
-DROP TABLE IF EXISTS `payment`;
+DROP TABLE IF EXISTS `product`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `payment` (
-  `payment_id` int NOT NULL AUTO_INCREMENT,
-  `completion` tinyint DEFAULT NULL COMMENT 'TINYINT is equavelant to BOOLEAN',
-  `seller_id` int DEFAULT NULL COMMENT 'to deal with seller credit account number for payments',
-  `client_id` int DEFAULT NULL COMMENT 'to deal with client credit account number for payments',
-  PRIMARY KEY (`payment_id`)
+CREATE TABLE `product` (
+  `product_id` int NOT NULL AUTO_INCREMENT,
+  `product_category` varchar(45) NOT NULL,
+  `Height` float NOT NULL,
+  `width` float NOT NULL,
+  `material` varchar(200) NOT NULL,
+  `color` varchar(45) NOT NULL,
+  `product_image` blob NOT NULL,
+  `product_brand` varchar(45) DEFAULT NULL,
+  `product_price` double NOT NULL,
+  `product_offer` double DEFAULT NULL,
+  `product_rate` int DEFAULT NULL,
+  `seller_id` int DEFAULT NULL,
+  PRIMARY KEY (`product_id`),
+  KEY `seller_id_idx` (`seller_id`),
+  CONSTRAINT `add_product_information` FOREIGN KEY (`seller_id`) REFERENCES `seller` (`seller_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `payment`
+-- Dumping data for table `product`
 --
 
-LOCK TABLES `payment` WRITE;
-/*!40000 ALTER TABLE `payment` DISABLE KEYS */;
-/*!40000 ALTER TABLE `payment` ENABLE KEYS */;
+LOCK TABLES `product` WRITE;
+/*!40000 ALTER TABLE `product` DISABLE KEYS */;
+/*!40000 ALTER TABLE `product` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -393,4 +393,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-11-10  0:06:14
+-- Dump completed on 2022-11-12 21:09:26
