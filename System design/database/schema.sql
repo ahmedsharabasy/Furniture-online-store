@@ -194,13 +194,13 @@ LOCK TABLES `credit card company` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `delivery`
+-- Table structure for table `delivery company`
 --
 
-DROP TABLE IF EXISTS `delivery`;
+DROP TABLE IF EXISTS `delivery company`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `delivery` (
+CREATE TABLE `delivery company` (
   `delivery_id` int NOT NULL AUTO_INCREMENT,
   `delivery_company_name` varchar(100) NOT NULL,
   `product_id` int DEFAULT NULL,
@@ -211,12 +211,12 @@ CREATE TABLE `delivery` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `delivery`
+-- Dumping data for table `delivery company`
 --
 
-LOCK TABLES `delivery` WRITE;
-/*!40000 ALTER TABLE `delivery` DISABLE KEYS */;
-/*!40000 ALTER TABLE `delivery` ENABLE KEYS */;
+LOCK TABLES `delivery company` WRITE;
+/*!40000 ALTER TABLE `delivery company` DISABLE KEYS */;
+/*!40000 ALTER TABLE `delivery company` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -272,11 +272,13 @@ CREATE TABLE `order` (
   KEY `h_idx` (`seller_id`),
   KEY `g_idx` (`delevery_id`),
   KEY `s_idx` (`cart_id`),
+  KEY `saled_products_idx` (`product_id`),
   CONSTRAINT `cart_make_order` FOREIGN KEY (`cart_id`) REFERENCES `cart` (`cart_id`),
   CONSTRAINT `make_order_and_receive_detials` FOREIGN KEY (`client_id`) REFERENCES `client` (`client_id`),
-  CONSTRAINT `order_delivery` FOREIGN KEY (`delevery_id`) REFERENCES `delivery` (`delivery_id`),
+  CONSTRAINT `order_delivery` FOREIGN KEY (`delevery_id`) REFERENCES `delivery company` (`delivery_id`),
   CONSTRAINT `order_details_to_seller` FOREIGN KEY (`seller_id`) REFERENCES `seller` (`seller_id`),
-  CONSTRAINT `pay` FOREIGN KEY (`payment_id`) REFERENCES `credit card company` (`payment_id`)
+  CONSTRAINT `pay` FOREIGN KEY (`payment_id`) REFERENCES `credit card company` (`payment_id`),
+  CONSTRAINT `saled_products` FOREIGN KEY (`product_id`) REFERENCES `saled_products` (`product_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -322,6 +324,31 @@ CREATE TABLE `product` (
 LOCK TABLES `product` WRITE;
 /*!40000 ALTER TABLE `product` DISABLE KEYS */;
 /*!40000 ALTER TABLE `product` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `saled_products`
+--
+
+DROP TABLE IF EXISTS `saled_products`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `saled_products` (
+  `product_id` int NOT NULL,
+  `product_name` varchar(200) DEFAULT NULL,
+  `quantity` int DEFAULT NULL,
+  `product_price` int DEFAULT NULL,
+  PRIMARY KEY (`product_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `saled_products`
+--
+
+LOCK TABLES `saled_products` WRITE;
+/*!40000 ALTER TABLE `saled_products` DISABLE KEYS */;
+/*!40000 ALTER TABLE `saled_products` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -393,4 +420,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-11-12 21:09:26
+-- Dump completed on 2023-01-05 21:54:52
