@@ -22,14 +22,6 @@ from scipy.sparse import hstack
 #         database="college_eslam",
 #     )
 
-# def load_data():
-#     cnx = mysql.connector.connect(
-#         host='127.0.0.1',
-#         password='ahmed-000',
-#         user='ahmed_000',
-#         database="college_eslam",
-#     )
-
 #     engine = create_engine('mysql+mysqlconnector://ahmed_000:ahmed-000@127.0.0.1/college_eslam')
 #     query = "SELECT * FROM products"
 #     df = pd.read_sql_query(query, con=cnx)
